@@ -1,0 +1,59 @@
+<template>
+  <div>
+    <v-container>
+      <h3 class="font-weight-bold">Our Endangered Birds</h3>
+      <v-row>
+        <v-col cols="5">
+          <v-text-field v-model="vorname" label="Vorname" clearable></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="5">
+          <v-text-field v-model="nachname" label="Nachname" clearable></v-text-field>
+        </v-col>
+      </v-row>
+      <h4 class="font-italic">
+        Click on the <span class="red--text">eye</span> icon if you have observed that bird!
+      </h4>
+      <v-data-table
+        class="elevation-4 mt-5"
+        max-width="100px"
+        :headers="headers"
+        :items="birds"
+        item-key="id"
+      >
+        <!-- eslint-disable-next-line -->
+        <template v-slot:item.pic="{ item }"> <v-img :src="item.pic" width="150px"></v-img> </template>
+        <!-- eslint-disable-next-line -->
+        <template v-slot:item.actions="{ item }">
+          <v-icon @click="raiseCount(item.count)" small color="red darken-2"> mdi-eye </v-icon>
+        </template>
+      </v-data-table>
+    </v-container>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Home',
+  props: {
+    birds: {
+      type: Array,
+    },
+  },
+  data: () => ({
+    headers: [
+      {
+        text: 'ID',
+        align: 'start',
+        value: 'id',
+      },
+      { text: 'Image', value: 'pic' },
+      { text: 'common Name', value: 'commonName' },
+      { text: 'scientific Name', value: 'scientificName' },
+      { text: 'Observed', value: 'count' },
+      { text: 'Actions', value: 'actions', sortable: false },
+    ],
+  }),
+};
+</script>
