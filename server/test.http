@@ -1,3 +1,10 @@
 GET http://localhost:3000/birds
 ################################################
 GET http://localhost:3000/test
+################################################
+PATCH http://localhost:3000/bird/1
+content-type: application/json
+
+{
+    "name": "Haroon Younas"
+}

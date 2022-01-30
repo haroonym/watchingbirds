@@ -13,7 +13,7 @@
         <v-btn class="mr-2 blue accent-4" to="/gallery"> Gallery </v-btn>
         <v-btn class="blue accent-4" to="/about"> About </v-btn>
       </v-app-bar>
-      <v-container> <router-view :birds="birds" /></v-container>
+      <v-container> <router-view :birds="birds" @updateCount="updateCount" /></v-container>
     </v-main>
   </v-app>
 </template>
@@ -40,6 +40,18 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    async updateCount(item) {
+      await axios({
+        url: 'http://127.0.0.1:3000/bird/' + item.id,
+        method: 'PATCH',
+        contentType: 'application/json',
+        data: {
+          count: item.count + 1,
+          name: item.name,
+        },
+      });
+      this.getBirds();
     },
   },
 };

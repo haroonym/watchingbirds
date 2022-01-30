@@ -3,12 +3,12 @@
     <v-container>
       <h3 class="font-weight-bold">Our Endangered Birds</h3>
       <v-row>
-        <v-col cols="5">
+        <v-col cols="4">
           <v-text-field v-model="vorname" label="Vorname" clearable></v-text-field>
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="5">
+        <v-col cols="4">
           <v-text-field v-model="nachname" label="Nachname" clearable></v-text-field>
         </v-col>
       </v-row>
@@ -26,7 +26,7 @@
         <template v-slot:item.pic="{ item }"> <v-img :src="item.pic" width="150px"></v-img> </template>
         <!-- eslint-disable-next-line -->
         <template v-slot:item.actions="{ item }">
-          <v-icon @click="raiseCount(item.count)" small color="red darken-2"> mdi-eye </v-icon>
+          <v-icon @click="updateCount(item)" small color="red darken-2"> mdi-eye </v-icon>
         </template>
       </v-data-table>
     </v-container>
@@ -54,6 +54,14 @@ export default {
       { text: 'Observed', value: 'count' },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
+    vorname: '',
+    nachname: '',
   }),
+  methods: {
+    updateCount(item) {
+      item.name = this.vorname + ' ' + this.nachname;
+      this.$emit('updateCount', item);
+    },
+  },
 };
 </script>
