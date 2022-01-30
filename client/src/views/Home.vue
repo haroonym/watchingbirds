@@ -6,6 +6,9 @@
         <v-col cols="4">
           <v-text-field v-model="vorname" label="Vorname" clearable></v-text-field>
         </v-col>
+        <v-col cols="6">
+          <WatchedBirdname :lastWatched="lastWatched" v-if="lastWatched != null" />
+        </v-col>
       </v-row>
       <v-row>
         <v-col cols="4">
@@ -26,7 +29,16 @@
         <template v-slot:item.pic="{ item }"> <v-img :src="item.pic" width="150px"></v-img> </template>
         <!-- eslint-disable-next-line -->
         <template v-slot:item.actions="{ item }">
-          <v-icon @click="updateCount(item)" small color="red darken-2"> mdi-eye </v-icon>
+          <!-- Icon wird nur angezeigt, wenn Namen ausgefüllt ist, ansonsten bleibt es disabled -->
+          <v-icon
+            v-if="vorname != '' && nachname != ''"
+            @click="updateCount(item)"
+            small
+            color="red darken-2"
+          >
+            mdi-eye
+          </v-icon>
+          <v-icon v-else disable small>mdi-eye</v-icon>
         </template>
       </v-data-table>
     </v-container>
@@ -34,6 +46,8 @@
 </template>
 
 <script>
+import WatchedBirdname from '@/components/WatchedBirdname.vue';
+
 export default {
   name: 'Home',
   props: {
@@ -56,12 +70,17 @@ export default {
     ],
     vorname: '',
     nachname: '',
+    lastWatched: null,
   }),
   methods: {
     updateCount(item) {
       item.name = this.vorname + ' ' + this.nachname;
       this.$emit('updateCount', item);
+      this.lastWatched = item.commonName;
     },
+  },
+  components: {
+    WatchedBirdname,
   },
 };
 </script>
